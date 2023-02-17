@@ -1,0 +1,14 @@
+FROM ros:humble-perception-jammy
+LABEL maintainer="bernd.pfrommer@gmail.com"
+LABEL version="1.0"
+LABEL description="enriched jammy/humble image"
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update
+
+# these needed for basalt
+RUN apt-get -y install libfmt-dev libbz2-dev ros-humble-ament-cmake-clang-format
+
+# these are needed for ffmpeg_image_transport
+RUN apt-get -y install libavcodec-dev libswresample-dev libswscale-dev libavutil-dev libavdevice-dev libavfilter-dev libavformat-dev
+
