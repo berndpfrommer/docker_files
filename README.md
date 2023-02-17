@@ -11,14 +11,19 @@ image_name=foo
 docker build -t ${your_dockerhub_name}/${image_name} - < Dockerfile.${image_name}
 ```
 
+## List your images
+```
+docker image list
+```
+
 ## How to upload to dockerhub:
 ```
 docker login
 docker push ${your_dockerhub_name}/${image_name}
 ```
 
-## How to test
 
+## How to test
 ```
 docker run -it ${your_dockerhub_name}/${image_name}:latest /bin/bash
 ```
