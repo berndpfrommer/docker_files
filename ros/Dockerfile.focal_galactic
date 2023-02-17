@@ -35,3 +35,8 @@ RUN apt-get -y install git python3-vcstool python3-colcon-common-extensions
 # needed by e.g. Basalt
 #
 RUN apt-get -y install libbz2-dev libfmt-dev
+
+#
+# these are needed for ffmpeg_image_transport
+#
+RUN apt-get -y install libavcodec-dev libswresample-dev libswscale-dev libavutil-dev libavdevice-dev libavfilter-dev libavformat-dev
