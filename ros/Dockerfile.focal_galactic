@@ -3,13 +3,14 @@ LABEL maintainer="bernd.pfrommer@gmail.com"
 LABEL version="1.0"
 LABEL description="ubuntu focal with ROS galactic"
 ARG DEBIAN_FRONTEND=noninteractive
+ARG ROS2_VERSION=galactic
 RUN apt-get update
 
 # for add-apt-repository and to make debconf happy
 RUN apt-get -y install software-properties-common apt-utils
 
 #
-# install ROS2 galactic
+# install ROS2 ${ROS2_VERSION}
 #
 RUN add-apt-repository universe
 RUN apt-get update && apt-get -y install curl gnupg lsb-release
@@ -19,24 +20,18 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/r
 ng.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" \
 | tee /etc/apt/sources.list.d/ros2.list > /dev/null
 RUN apt-get update
-RUN apt-get -y install ros-galactic-desktop
+RUN apt-get -y install ros-${ROS2_VERSION}-desktop
 
-#
-# extra ROS stuff
-#
-RUN apt-get -y install ros-galactic-ament-cmake-clang-format
+# extra ROS packages
+RUN apt-get -y install python3-osrf-pycommon python3-catkin-tools ros-${ROS2_VERSION}-image-transport ros-${ROS2_VERSION}-cv-bridge ros-${ROS2_VERSION}-sensor-msgs ros-${ROS2_VERSION}-std-msgs ros-${ROS2_VERSION}-tf2-ros ros-${ROS2_VERSION}-image-geometry ros-${ROS2_VERSION}-tf2-geometry-msgs ros-${ROS2_VERSION}-camera-info-manager ros-${ROS2_VERSION}-ament-cmake-clang-format ros-${ROS2_VERSION}-ament-cmake-*
+# rosbag
+RUN apt-get -y install ros-${ROS2_VERSION}-rosbag2 ros-${ROS2_VERSION}-rosbag2-compression ros-${ROS2_VERSION}-rosbag2-cpp ros-${ROS2_VERSION}-rosbag2-interfaces ros-${ROS2_VERSION}-rosbag2-storage ros-${ROS2_VERSION}-rosbag2-transport
 
-#
-# git, colcon and vcs tool
-#
-RUN apt-get -y install git python3-vcstool python3-colcon-common-extensions
+# git, clang-tidy, colcon, vcs tool
+RUN apt-get -y install git clang-tidy python3-vcstool python3-colcon-common-extensions
 
-#
-# needed by e.g. Basalt
-#
+# needed for basalt
 RUN apt-get -y install libbz2-dev libfmt-dev
 
-#
-# these are needed for ffmpeg_image_transport
-#
+# needed for ffmpeg_image_transport
 RUN apt-get -y install libavcodec-dev libswresample-dev libswscale-dev libavutil-dev libavdevice-dev libavfilter-dev libavformat-dev

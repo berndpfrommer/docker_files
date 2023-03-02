@@ -1,0 +1,40 @@
+FROM ros:noetic
+LABEL maintainer="bernd.pfrommer@gmail.com"
+LABEL version="1.0"
+LABEL description="ubuntu focal with ROS noetic"
+ARG DEBIAN_FRONTEND=noninteractive
+ARG ROS1_VERSION=noetic
+RUN apt-get update
+
+# for add-apt-repository and to make debconf happy
+RUN apt-get -y install software-properties-common apt-utils
+
+#
+# extra ROS1 packages
+#
+RUN apt-get -y install python3-osrf-pycommon python3-catkin-tools ros-${ROS1_VERSION}-image-transport ros-${ROS1_VERSION}-cv-bridge ros-${ROS1_VERSION}-sensor-msgs ros-${ROS1_VERSION}-std-msgs ros-${ROS1_VERSION}-rosbag ros-${ROS1_VERSION}-eigen-conversions ros-${ROS1_VERSION}-tf2-ros ros-${ROS1_VERSION}-image-geometry ros-${ROS1_VERSION}-tf2-geometry-msgs ros-${ROS1_VERSION}-message-generation ros-${ROS1_VERSION}-message-runtime ros-${ROS1_VERSION}-dynamic-reconfigure ros-${ROS1_VERSION}-camera-info-manager ros-${ROS1_VERSION}-pybind11-catkin
+
+# git, clang-tidy vcstool, opencv
+RUN apt-get -y install git clang-tidy python3-vcstool libopencv-dev 
+
+#
+# needed by e.g. Basalt
+#
+RUN apt-get -y install libbz2-dev libfmt-dev
+
+#
+# these are needed for ffmpeg_image_transport
+#
+RUN apt-get -y install libavcodec-dev libswresample-dev libswscale-dev libavutil-dev libavdevice-dev libavfilter-dev libavformat-dev
+
+#
+# these are needed for OpenEB / metavision sdk
+#
+RUN apt-get -y install iputils-ping wget libcanberra-gtk-module mesa-utils cmake libboost-program-options-dev libeigen3-dev
+
+
+#
+# ceres is sometimes needed for e.g. calibration
+#
+RUN apt-get -y install libceres-dev
+
