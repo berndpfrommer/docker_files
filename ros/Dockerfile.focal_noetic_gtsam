@@ -1,0 +1,8 @@
+FROM berndpfrommer/focal_noetic
+LABEL maintainer="bernd.pfrommer@gmail.com"
+LABEL version="1.0"
+LABEL description="ubuntu focal with ROS noetic + gtsam"
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-add-repository ppa:borglab/gtsam-release-4.1
+RUN apt-get update && apt-get -y install libgtsam-dev libgtsam-unstable-dev

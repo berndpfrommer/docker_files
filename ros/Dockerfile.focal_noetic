@@ -14,6 +14,9 @@ RUN apt-get -y install software-properties-common apt-utils
 #
 RUN apt-get -y install python3-osrf-pycommon python3-catkin-tools ros-${ROS1_VERSION}-image-transport ros-${ROS1_VERSION}-cv-bridge ros-${ROS1_VERSION}-sensor-msgs ros-${ROS1_VERSION}-std-msgs ros-${ROS1_VERSION}-rosbag ros-${ROS1_VERSION}-eigen-conversions ros-${ROS1_VERSION}-tf2-ros ros-${ROS1_VERSION}-image-geometry ros-${ROS1_VERSION}-tf2-geometry-msgs ros-${ROS1_VERSION}-message-generation ros-${ROS1_VERSION}-message-runtime ros-${ROS1_VERSION}-dynamic-reconfigure ros-${ROS1_VERSION}-camera-info-manager ros-${ROS1_VERSION}-pybind11-catkin
 
+# necessary for tagslam
+RUN apt-get update && apt-get -y install ros-${ROS1_VERSION}-tf
+
 # git, clang-tidy vcstool, opencv
 RUN apt-get -y install git clang-tidy python3-vcstool libopencv-dev 
 
