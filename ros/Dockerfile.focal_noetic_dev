@@ -1,0 +1,32 @@
+FROM berndpfrommer/focal_noetic
+LABEL maintainer="bernd.pfrommer@gmail.com"
+LABEL version="1.0"
+LABEL description="ubuntu focal with ROS noetic and dev environment"
+ARG DEBIAN_FRONTEND=noninteractive
+ARG ROS1_VERSION=noetic
+RUN apt-get update
+
+
+# create a pfrommer user
+RUN useradd -u 1000 -m pfrommer -G sudo -s /usr/bin/bash
+
+#
+# add gtsam (for tagslam)
+#
+
+RUN apt-add-repository ppa:borglab/gtsam-release-4.1
+RUN apt-get update && apt-get -y install libgtsam-dev libgtsam-unstable-dev
+
+#
+# install various development tools 
+#
+RUN apt-get -y install tmux emacs magit virtualenvwrapper xterm
+RUN apt-get -y install inetutils-tools net-tools
+
+#
+# more ROS packages
+#
+
+RUN apt-get -y install ros-noetic-rqt-bag ros-noetic-rqt-bag-plugins ros-noetic-rqt-image-view
+
+

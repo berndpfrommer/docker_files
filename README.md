@@ -27,3 +27,9 @@ docker push ${your_dockerhub_name}/${image_name}
 ```
 docker run -it ${your_dockerhub_name}/${image_name}:latest /bin/bash
 ```
+
+## How to run interactively as user pfrommer with X11 forwarding
+
+```
+docker run -v /home/pfrommer:/home/pfrommer -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -w /home/pfrommer -u $(id -u ${USER}):$(id -g ${USER}) -it berndpfrommer/focal_noetic_dev /bin/bash
+``
