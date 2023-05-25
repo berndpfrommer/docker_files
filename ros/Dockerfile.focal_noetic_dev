@@ -29,4 +29,8 @@ RUN apt-get -y install inetutils-tools net-tools
 
 RUN apt-get -y install ros-noetic-rqt-bag ros-noetic-rqt-bag-plugins ros-noetic-rqt-image-view
 
+#
+# hugo, for my personal web page
+#
 
+RUN apt-get -y install hugo
