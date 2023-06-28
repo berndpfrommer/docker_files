@@ -20,14 +20,14 @@ RUN apt-get update && apt-get -y install libgtsam-dev libgtsam-unstable-dev
 #
 # install various development tools 
 #
-RUN apt-get -y install tmux emacs magit virtualenvwrapper xterm
+RUN apt-get -y install tmux emacs magit elpa-markdown-mode virtualenvwrapper xterm
 RUN apt-get -y install inetutils-tools net-tools
 
 #
 # more ROS packages
 #
 
-RUN apt-get -y install ros-noetic-rqt-bag ros-noetic-rqt-bag-plugins ros-noetic-rqt-image-view
+RUN apt-get -y install ros-noetic-rqt-bag ros-noetic-rqt-bag-plugins ros-noetic-rqt-image-view ros-noetic-rviz ros-noetic-image-transport-codecs ros-noetic-image-transport-plugins
 
 #
 # hugo, for my personal web page
