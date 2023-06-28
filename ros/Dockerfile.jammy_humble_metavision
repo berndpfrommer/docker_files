@@ -1,0 +1,17 @@
+FROM berndpfrommer/jammy_humble
+LABEL maintainer="bernd.pfrommer@gmail.com"
+LABEL version="1.0"
+LABEL description="ubuntu jammy with ROS2 humble and openeb metavision"
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y update
+RUN apt-get -y upgrade
+#
+# install openeb prerequisites
+#
+
+RUN apt-get -y install software-properties-common apt-utils python3-osrf-pycommon libceres-dev python3-wstool iputils-ping wget libcanberra-gtk-module mesa-utils cmake libboost-program-options-dev libeigen3-dev libavcodec58 libavformat58 libswscale5 libswresample3 libavutil56 libusb-1.0-0 libpcre2-16-0 libdouble-conversion3 libxcb-xinput0 libxcb-xinerama0 build-essential unzip curl git libgtest-dev libboost-all-dev libusb-1.0-0-dev libglew-dev libglfw3-dev libcanberra-gtk-module ffmpeg libyaml-cpp-dev
+
+#
+# compile openeb from source and install it
+#
+RUN mkdir /tmp/openeb && cd /tmp/openeb && git clone https://github.com/prophesee-ai/openeb.git && cd openeb && mkdir build && cd build && cmake .. -DCOMPILE_PYTHON3_BINDINGS=OFF -DBUILD_TESTING=OFF && cmake --build . --config Release -- -j 4 && cmake --build . --target install && rm -rf /tmp/openeb
