@@ -8,7 +8,7 @@ This repo has the Docker files for various projects.
 ```
 your_dockerhub_name=berndpfrommer
 image_name=foo
-docker build -t ${your_dockerhub_name}/${image_name} - < Dockerfile.${image_name}
+docker build . -t ${your_dockerhub_name}/${image_name} -f  Dockerfile.${image_name}
 ```
 
 ## List your images

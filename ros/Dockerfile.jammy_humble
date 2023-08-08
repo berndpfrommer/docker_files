@@ -18,3 +18,7 @@ RUN apt-get -y install libfmt-dev libbz2-dev ros-${ROS2_VERSION}-ament-cmake-cla
 # needed for ffmpeg_image_transport
 RUN apt-get -y install libavcodec-dev libswresample-dev libswscale-dev libavutil-dev libavdevice-dev libavfilter-dev libavformat-dev
 
+# OpenEB dependencies
+RUN apt-get -y install apt-utils build-essential software-properties-common wget unzip curl git cmake
+RUN apt-get -y install libopencv-dev libboost-all-dev libusb-1.0-0-dev
+RUN apt-get -y install libhdf5-dev hdf5-tools libglew-dev libglfw3-dev libcanberra-gtk-module ffmpeg 

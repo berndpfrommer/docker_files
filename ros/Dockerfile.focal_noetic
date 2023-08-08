@@ -41,3 +41,8 @@ RUN apt-get -y install iputils-ping wget libcanberra-gtk-module mesa-utils cmake
 #
 RUN apt-get -y install libceres-dev
 
+# OpenEB dependencies
+
+RUN apt-get -y install apt-utils build-essential software-properties-common wget unzip curl git cmake
+RUN apt-get -y install libopencv-dev libboost-all-dev libusb-1.0-0-dev
+RUN apt-get -y install libhdf5-dev hdf5-tools libglew-dev libglfw3-dev libcanberra-gtk-module ffmpeg 
