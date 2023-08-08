@@ -3,12 +3,9 @@ LABEL maintainer="bernd.pfrommer@gmail.com"
 LABEL version="1.0"
 LABEL description="ubuntu focal with ROS noetic and dev environment"
 ARG DEBIAN_FRONTEND=noninteractive
-ARG ROS1_VERSION=noetic
+ARG SILKY_VERSION=4.1.0
 RUN apt-get update
 
-
-# create a pfrommer user
-RUN useradd -u 1000 -m pfrommer -G sudo -s /usr/bin/bash
 
 #
 # add gtsam (for tagslam)
@@ -21,7 +18,7 @@ RUN apt-get update && apt-get -y install libgtsam-dev libgtsam-unstable-dev
 # install various development tools 
 #
 RUN apt-get -y install tmux emacs magit elpa-markdown-mode virtualenvwrapper xterm
-RUN apt-get -y install inetutils-tools net-tools
+RUN apt-get -y install inetutils-tools net-tools strace
 
 #
 # more ROS packages
@@ -34,3 +31,26 @@ RUN apt-get -y install ros-noetic-rqt-bag ros-noetic-rqt-bag-plugins ros-noetic-
 #
 
 RUN apt-get -y install hugo
+
+#
+# OpenEB dependencies
+#
+
+RUN apt-get -y install apt-utils build-essential software-properties-common wget unzip curl git cmake
+RUN apt-get -y install libopencv-dev libboost-all-dev libusb-1.0-0-dev
+RUN apt-get -y install libhdf5-dev hdf5-tools libglew-dev libglfw3-dev libcanberra-gtk-module ffmpeg 
+
+#
+# SilkyEvCam tools and plugins
+#
+RUN apt-get -y install usbutils udev
+COPY SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION}.zip .
+RUN unzip ./SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION}.zip
+RUN cd ./SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION}/SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION} && chmod a+x ./CA_Silky_installer.sh && ./CA_Silky_installer.sh; exit 0
+
+#
+# create a pfrommer user with sudo privileges and poor password
+#
+RUN apt-get -y install sudo
+RUN useradd -u 1000 -m pfrommer -G sudo -s /usr/bin/bash && echo "pfrommer:foo" | chpasswd && adduser pfrommer sudo
+
