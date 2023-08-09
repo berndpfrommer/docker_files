@@ -48,9 +48,17 @@ COPY SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION}.zip .
 RUN unzip ./SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION}.zip
 RUN cd ./SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION}/SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION} && chmod a+x ./CA_Silky_installer.sh && ./CA_Silky_installer.sh; exit 0
 
+
+#
+# cura
+#
+COPY cura-lulzbot-3.6.40-deb10-Linux.deb .
+COPY libreadline7_7.0-3_amd64.deb .
+RUN apt-get -y install ./libreadline7_7.0-3_amd64.deb
+RUN apt-get -y install libgl1-mesa-glx libtinfo5
+RUN apt-get -y install ./cura-lulzbot-3.6.40-deb10-Linux.deb
 #
 # create a pfrommer user with sudo privileges and poor password
 #
 RUN apt-get -y install sudo
 RUN useradd -u 1000 -m pfrommer -G sudo -s /usr/bin/bash && echo "pfrommer:foo" | chpasswd && adduser pfrommer sudo
-
