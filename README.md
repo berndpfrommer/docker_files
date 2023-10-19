@@ -32,4 +32,10 @@ docker run -it ${your_dockerhub_name}/${image_name}:latest /bin/bash
 
 ```
 docker run -v /home/pfrommer:/home/pfrommer -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -w /home/pfrommer -u $(id -u ${USER}):$(id -g ${USER}) -it berndpfrommer/focal_noetic_dev /bin/bash
-``
+```
+
+## How to connect as root to a running container
+
+```bash
+docker exec -u root -it <container-id> /bin/bash
+```
