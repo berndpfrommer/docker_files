@@ -8,12 +8,13 @@ RUN apt-get update
 
 
 #
-# add gtsam (for tagslam)
+# add gtsam (for tagslam) and libcaer (for davis)
 #
 
 RUN apt-add-repository ppa:borglab/gtsam-release-4.1
+RUN add-apt-repository ppa:inivation-ppa/inivation
 RUN apt-get update && apt-get -y install libgtsam-dev libgtsam-unstable-dev
-
+RUN apt-get -y install libcaer-dev
 #
 # install various development tools 
 #
@@ -57,6 +58,7 @@ COPY libreadline7_7.0-3_amd64.deb .
 RUN apt-get -y install ./libreadline7_7.0-3_amd64.deb
 RUN apt-get -y install libgl1-mesa-glx libtinfo5
 RUN apt-get -y install ./cura-lulzbot-3.6.40-deb10-Linux.deb
+
 #
 # create a pfrommer user with sudo privileges and poor password
 #
