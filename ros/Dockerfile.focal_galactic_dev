@@ -1,0 +1,56 @@
+FROM berndpfrommer/focal_galactic
+LABEL maintainer="bernd.pfrommer@gmail.com"
+LABEL version="1.0"
+LABEL description="ubuntu focal with ROS2 galactic and dev environment"
+ARG DEBIAN_FRONTEND=noninteractive
+ARG SILKY_VERSION=4.1.0
+RUN apt-get update
+
+
+#
+# add gtsam (for tagslam) and libcaer (for davis)
+#
+
+RUN apt-add-repository ppa:borglab/gtsam-release-4.1
+RUN add-apt-repository ppa:inivation-ppa/inivation
+RUN apt-get update && apt-get -y install libgtsam-dev libgtsam-unstable-dev
+RUN apt-get -y install libcaer-dev
+#
+# install various development tools 
+#
+RUN apt-get -y install tmux emacs magit elpa-markdown-mode virtualenvwrapper xterm
+RUN apt-get -y install inetutils-tools net-tools strace
+
+#
+# more ROS2 packages
+#
+
+RUN apt-get -y install ros-galactic-rqt-bag ros-galactic-rqt-bag-plugins ros-galactic-rqt-image-view ros-galactic-image-transport-plugins
+
+#
+# hugo, for my personal web page
+#
+
+RUN apt-get -y install hugo
+
+#
+# OpenEB dependencies
+#
+
+RUN apt-get -y install apt-utils build-essential software-properties-common wget unzip curl git cmake
+RUN apt-get -y install libopencv-dev libboost-all-dev libusb-1.0-0-dev
+RUN apt-get -y install libhdf5-dev hdf5-tools libglew-dev libglfw3-dev libcanberra-gtk-module ffmpeg 
+
+#
+# SilkyEvCam tools and plugins
+#
+RUN apt-get -y install usbutils udev
+COPY SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION}.zip .
+RUN unzip ./SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION}.zip
+RUN cd ./SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION}/SilkyEvCam_Plugin_Installer_for_ubuntu_v${SILKY_VERSION} && chmod a+x ./CA_Silky_installer.sh && ./CA_Silky_installer.sh; exit 0
+
+#
+# create a pfrommer user with sudo privileges and poor password
+#
+RUN apt-get -y install sudo
+RUN useradd -u 1000 -m pfrommer -G sudo -s /usr/bin/bash && echo "pfrommer:foo" | chpasswd && adduser pfrommer sudo
