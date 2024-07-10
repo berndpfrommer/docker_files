@@ -18,6 +18,12 @@ RUN apt-get -y install sudo git clang-tidy python3-vcstool libopencv-dev
 # install gazebo
 RUN sudo apt-get -y install ros-${ROS2_VERSION}-ros-gz
 
+# build rmw_zenoh
+
+RUN mkdir -p  /opt/ros/src/${ROS2_VERSION}/src && cd /opt/ros/src/${ROS2_VERSION}/src && git clone https://github.com/ros2/rmw_zenoh.git
+RUN cd /opt/ros/src/${ROS2_VERSION} &&  rosdep install --from-paths src --ignore-src --rosdistro rolling -y && . /opt/ros/${ROS2_VERSION}/setup.sh && colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+
 # various handy development tools
 RUN apt-get -y install tmux emacs magit elpa-markdown-mode virtualenvwrapper xterm inetutils-tools net-tools strace sudo udev usbutils
 
